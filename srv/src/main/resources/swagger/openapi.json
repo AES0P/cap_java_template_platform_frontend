@@ -38,6 +38,9 @@
     },
     {
       "name": "status_texts"
+    },
+    {
+      "name": "Upload"
     }
   ],
   "paths": {
@@ -2151,6 +2154,72 @@
         }
       }
     },
+    "/Upload": {
+      "get": {
+        "summary": "Retrieves upload.",
+        "tags": [
+          "Upload"
+        ],
+        "parameters": [
+          {
+            "name": "$select",
+            "description": "Select properties to be returned, see [Select](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_SystemQueryOptionselect)",
+            "in": "query",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "csv"
+                ]
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookService.Upload"
+                }
+              }
+            }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Changes upload.",
+        "tags": [
+          "Upload"
+        ],
+        "requestBody": {
+          "description": "New property values",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookService.Upload-update"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/error"
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
         "summary": "Retrieves a list of status.",
@@ -3320,6 +3389,28 @@
           "descr": {
             "type": "string",
             "maxLength": 1111,
+            "nullable": true
+          }
+        }
+      },
+      "BookService.Upload": {
+        "title": "Upload",
+        "type": "object",
+        "properties": {
+          "csv": {
+            "type": "string",
+            "format": "base64url",
+            "nullable": true
+          }
+        }
+      },
+      "BookService.Upload-update": {
+        "title": "Upload (for update)",
+        "type": "object",
+        "properties": {
+          "csv": {
+            "type": "string",
+            "format": "base64url",
             "nullable": true
           }
         }
