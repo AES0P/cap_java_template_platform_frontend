@@ -30,6 +30,7 @@ import com.win.template_platform.common.MessageKeys;
 import cds.gen.bookservice.AddReviewContext;
 import cds.gen.bookservice.BookService_;
 import cds.gen.bookservice.Books;
+import cds.gen.bookservice.Books_;
 import cds.gen.bookservice.Reviews;
 import cds.gen.bookservice.Reviews_;
 import cds.gen.bookservice.Upload;
@@ -69,6 +70,14 @@ public class BooksServiceHandler implements EventHandler {
         Reviews newReview = dbResult.single(Reviews.class);
 
         context.setResult(newReview);
+    }
+
+    @On(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
+    public void changeUrgencyDueToSubject(Books book) {
+        book.setStatusCode("A");
+        if (book.getStock() == 0) {
+            book.setStatusCode("O");
+        }
     }
 
     /**

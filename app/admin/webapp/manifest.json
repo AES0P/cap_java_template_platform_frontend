@@ -64,6 +64,11 @@
                     "pattern": ":?query:",
                     "name": "BooksList",
                     "target": "BooksList"
+                },
+                {
+                    "pattern": "Books({key}):?query:",
+                    "name": "BooksObjectPage",
+                    "target": "BooksObjectPage"
                 }
             ],
             "targets": {
@@ -74,7 +79,13 @@
                     "options": {
                         "settings": {
                             "entitySet": "Books",
-                            "navigation": {},
+                            "navigation": {
+                                "Books": {
+                                    "detail": {
+                                        "route": "BooksObjectPage"
+                                    }
+                                }
+                            },
                             "content": {
                                 "header": {
                                     "actions": {
@@ -104,6 +115,24 @@
                                     }
                                 }
                             }
+                        }
+                    }
+                },
+                "BooksObjectPage": {
+                    "type": "Component",
+                    "id": "BooksObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Books",
+                            "navigation": {},
+                            "content": {
+                                "header": {
+                                    "anchorBarVisible": true
+                                }
+                            },
+                            "editableHeaderContent": false,
+                            "sectionLayout": "Page"
                         }
                     }
                 }
