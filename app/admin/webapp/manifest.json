@@ -74,7 +74,36 @@
                     "options": {
                         "settings": {
                             "entitySet": "Books",
-                            "navigation": {}
+                            "navigation": {},
+                            "content": {
+                                "header": {
+                                    "actions": {
+                                        "import_books": {
+                                            "press": "admin.ext.controller.importBooks.import",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "text": "{i18n>importBooks}"
+                                        }
+                                    }
+                                }
+                            },
+                            "initialLoad": "Enabled",
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "selectAll": false,
+                                        "selectionMode": "Multi"
+                                    },
+                                    "actions": {
+                                        "DataFieldForAction::BookService.addReview": {
+                                            "enableOnSelect": "multi",
+                                            "afterExecution": {
+                                                "enableAutoScroll": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
