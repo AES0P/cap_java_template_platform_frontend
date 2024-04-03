@@ -1,163 +1,201 @@
 using BookService as service from '../../srv/books-service';
 using from '../ui/layout-list_report';
 using from '../ui/field-control';
-
-annotate service.Books with @(UI.HeaderInfo: {
-    TypeName      : '{i18n>HeaderTitle}',
-    TypeNamePlural: '{i18n>BookInfo}',
-    Title         : {
-        $Type: 'UI.DataField',
-        Value: title,
-    },
-    TypeImageUrl  : 'sap-icon://education',
-});
-
-annotate service.Books with @(UI.Identification: [{
-    $Type : 'UI.DataFieldForAction',
-    Action: 'BookService.addReview',
-    Label : '{i18n>Addreview}'
-}, ]);
+using from '../ui/labels';
 
 annotate service.Books with @(
-    UI.HeaderFacets    : [{
-        $Type : 'UI.ReferenceFacet',
-        Label : '{i18n>BookOverview}',
-        ID    : 'Header',
-        Target: '@UI.FieldGroup#Header1',
-    }, ],
-    UI.FieldGroup #Test: {
+    UI.HeaderInfo                : {
+        TypeName      : '{i18n>HeaderTitle}',
+        TypeNamePlural: '{i18n>BookInfo}',
+        Title         : {Value: title},
+        Description   : {Value: isbn},
+        TypeImageUrl  : 'sap-icon://education'
+    },
+    UI.Identification            : [
+        {Value: title},
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'BookService.addReview',
+            Label : '{i18n>Addreview}'
+        }
+    ],
+    UI.HeaderFacets              : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : '{i18n>BookOverview}',
+            ID    : 'Header',
+            Target: '@UI.FieldGroup#Basic_info'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target: '@UI.DataPoint#rating'
+        }
+    ],
+    UI.FieldGroup #Basic_info    : {
         $Type: 'UI.FieldGroupType',
         Data : [
             {
                 $Type: 'UI.DataField',
-                Value: title,
+                Value: title
             },
             {
                 $Type: 'UI.DataField',
-                Value: isbn,
+                Value: isbn
             },
-        ],
-    }
-);
-
-annotate service.Books with @(UI.FieldGroup #Header1: {
-    $Type: 'UI.FieldGroupType',
-    Data : [
-        {
-            $Type: 'UI.DataField',
-            Value: title,
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: isbn,
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: descr,
-        },
-    ],
-});
-
-annotate service.Books with @(
-    UI.Facets            : [
+            {
+                $Type: 'UI.DataField',
+                Value: descr
+            }
+        ]
+    },
+    UI.Facets                    : [
         {
             $Type : 'UI.ReferenceFacet',
             Label : '{i18n>Header}',
             ID    : 'Header',
-            Target: '@UI.FieldGroup#Header',
+            Target: '@UI.FieldGroup#Header'
         },
         {
             $Type : 'UI.ReferenceFacet',
             Label : '{i18n>General}',
             ID    : 'General',
-            Target: '@UI.FieldGroup#General',
+            Target: '@UI.FieldGroup#General'
         },
         {
             $Type : 'UI.ReferenceFacet',
             Label : '{i18n>Details}',
             ID    : 'Details',
-            Target: '@UI.FieldGroup#Details',
+            Target: '@UI.FieldGroup#Details'
         },
         {
             $Type : 'UI.ReferenceFacet',
             Label : 'Administrative',
             ID    : 'Administrative',
-            Target: '@UI.FieldGroup#Administrative',
+            Target: '@UI.FieldGroup#Administrative'
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : '{i18n>Reviews}',
+            Target: 'reviews/@UI.LineItem'
+        }
     ],
-    UI.FieldGroup #Header: {
+    UI.FieldGroup #Header        : {
         $Type: 'UI.FieldGroupType',
         Data : [
             {
                 $Type: 'UI.DataField',
-                Value: title,
+                Value: title
             },
             {
                 $Type: 'UI.DataField',
-                Value: isbn,
+                Value: isbn
+            }
+        ]
+    },
+    UI.FieldGroup #General       : {
+        $Type: 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: descr
             },
-        ],
+            {
+                $Type: 'UI.DataField',
+                Value: status_code
+            }
+        ]
+    },
+    UI.FieldGroup #Details       : {
+        $Type: 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: stock
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: price
+            },
+            {
+                $Type : 'UI.DataFieldForAnnotation',
+                Target: '@UI.DataPoint#rating'
+            }
+        ]
+    },
+    UI.FieldGroup #Administrative: {
+        $Type: 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: createdAt,
+                Label: '{i18n>Createdat}'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: createdBy,
+                Label: '{i18n>Createdby}'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: modifiedAt,
+                Label: '{i18n>Modifiedat}'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: modifiedBy,
+                Label: '{i18n>Modifiedby}'
+            }
+        ]
     }
 );
 
-annotate service.Books with {
-    isbn @Common.FieldControl: #Optional
-};
 
-annotate service.Books with @(UI.FieldGroup #General: {
-    $Type: 'UI.FieldGroupType',
-    Data : [
+annotate service.Books.texts with @(UI: {LineItem: [
+    {Value: locale},
+    {Value: title},
+    {Value: descr}
+]});
+
+annotate service.Reviews with @(UI: {
+    PresentationVariant        : {
+        $Type    : 'UI.PresentationVariantType',
+        SortOrder: [{
+            $Type     : 'Common.SortOrderType',
+            Property  : modifiedAt,
+            Descending: true
+        }, ],
+    },
+    LineItem                   : [
         {
-            $Type: 'UI.DataField',
+            $Type : 'UI.DataFieldForAnnotation',
+            Label : '{i18n>Rating}',
+            Target: '@UI.DataPoint#rating',
+            @HTML5.CssDefaults: {width: '10em'}
+        },
+        {
+            $Type : 'UI.DataFieldForAnnotation',
+            Label : '{i18n>User}',
+            Target: '@UI.FieldGroup#ReviewerAndDate',
+            @HTML5.CssDefaults: {width: '15em'}
+        },
+        {
+            Value: title,
+            Label: '{i18n>Title}',
+            @HTML5.CssDefaults: {width: '15em'}
+        },
+        {
             Value: descr,
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: status_code,
+            Label: '{i18n>Description}'
         },
     ],
-});
-
-annotate service.Books with @(UI.FieldGroup #Details: {
-    $Type: 'UI.FieldGroupType',
-    Data : [
-        {
-            $Type: 'UI.DataField',
-            Value: stock,
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: price,
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: rating,
-        },
-    ],
-});
-
-annotate service.Books with @(UI.FieldGroup #Administrative: {
-    $Type: 'UI.FieldGroupType',
-    Data : [
-        {
-            $Type: 'UI.DataField',
-            Value: createdAt,
-            Label: 'createdAt',
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: createdBy,
-            Label: 'createdBy',
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: modifiedAt,
-            Label: 'modifiedAt',
-        },
-        {
-            $Type: 'UI.DataField',
-            Value: modifiedBy,
-            Label: 'modifiedBy',
-        },
-    ],
+    DataPoint #rating          : {
+        Value        : rating,
+        Visualization: #Rating,
+        MinimumValue : 0,
+        MaximumValue : 5
+    },
+    FieldGroup #ReviewerAndDate: {Data: [
+        {Value: createdBy},
+        {Value: modifiedAt}
+    ]}
 });

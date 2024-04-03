@@ -22,6 +22,7 @@ import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.cds.CdsUpdateEventContext;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
@@ -72,11 +73,25 @@ public class BooksServiceHandler implements EventHandler {
         context.setResult(newReview);
     }
 
-    @On(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
-    public void changeUrgencyDueToSubject(Books book) {
+    @Before(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
+    public void initData(Books book) {
         book.setStatusCode("A");
+        book.setIsbn("100" + "-" + "1000000000");
+    }
+
+    @On(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
+    public void changeDataOnCreate(Books book) {
         if (book.getStock() == 0) {
             book.setStatusCode("O");
+        }
+    }
+
+    @On(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)
+    public void changeDataOnUdate(Books book) {
+        if (book.getStock() == 0) {
+            book.setStatusCode("O");
+        } else {
+            book.setStatusCode("A");
         }
     }
 

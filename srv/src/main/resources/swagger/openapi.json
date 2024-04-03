@@ -141,8 +141,6 @@
                   "currency_code desc",
                   "rating",
                   "rating desc",
-                  "review_ID",
-                  "review_ID desc",
                   "isReviewable",
                   "isReviewable desc",
                   "status_code",
@@ -175,7 +173,6 @@
                   "price",
                   "currency_code",
                   "rating",
-                  "review_ID",
                   "isReviewable",
                   "status_code",
                   "isbn"
@@ -196,7 +193,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -308,7 +305,6 @@
                   "price",
                   "currency_code",
                   "rating",
-                  "review_ID",
                   "isReviewable",
                   "status_code",
                   "isbn"
@@ -329,7 +325,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -611,7 +607,7 @@
         }
       }
     },
-    "/Books({ID})/review": {
+    "/Books({ID})/reviews": {
       "parameters": [
         {
           "description": "key: ID",
@@ -626,7 +622,7 @@
         }
       ],
       "get": {
-        "summary": "Retrieves a list of review of a book.",
+        "summary": "Retrieves a list of reviews of a book.",
         "tags": [
           "Books",
           "Reviews"
@@ -729,7 +725,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Retrieved review",
+            "description": "Retrieved reviews",
             "content": {
               "application/json": {
                 "schema": {
@@ -2026,7 +2022,6 @@
                   "price",
                   "currency_code",
                   "rating",
-                  "review_ID",
                   "isReviewable",
                   "status_code",
                   "isbn"
@@ -2047,7 +2042,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -2863,20 +2858,14 @@
             "x-sap-scale": 1,
             "nullable": true
           },
-          "review": {
+          "reviews": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookService.Reviews"
             }
           },
-          "review@count": {
+          "reviews@count": {
             "$ref": "#/components/schemas/count"
-          },
-          "review_ID": {
-            "type": "string",
-            "format": "uuid",
-            "example": "01234567-89ab-cdef-0123-456789abcdef",
-            "nullable": true
           },
           "isReviewable": {
             "type": "boolean",
@@ -2985,12 +2974,6 @@
             "x-sap-scale": 1,
             "nullable": true
           },
-          "review_ID": {
-            "type": "string",
-            "format": "uuid",
-            "example": "01234567-89ab-cdef-0123-456789abcdef",
-            "nullable": true
-          },
           "isbn": {
             "type": "string",
             "maxLength": 40,
@@ -3068,12 +3051,6 @@
             "example": 0,
             "x-sap-precision": 2,
             "x-sap-scale": 1,
-            "nullable": true
-          },
-          "review_ID": {
-            "type": "string",
-            "format": "uuid",
-            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "nullable": true
           },
           "isbn": {
