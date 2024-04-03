@@ -1,7 +1,5 @@
 using BookService as service from '../../srv/books-service';
 using from '../ui/layout-list_report';
-using from '../ui/field-control';
-using from '../ui/labels';
 
 annotate service.Books with @(
     UI.HeaderInfo                : {
@@ -60,6 +58,11 @@ annotate service.Books with @(
             Label : '{i18n>General}',
             ID    : 'General',
             Target: '@UI.FieldGroup#General'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : '{i18n>Translations}',
+            Target: 'texts/@UI.LineItem'
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -150,11 +153,28 @@ annotate service.Books with @(
 );
 
 
-annotate service.Books.texts with @(UI: {LineItem: [
-    {Value: locale},
-    {Value: title},
-    {Value: descr}
-]});
+annotate service.Books.texts with @(UI: {
+    Identification : [{Value: title}],
+    SelectionFields: [
+        locale,
+        title
+    ],
+    LineItem       : [
+        {
+            Value: locale,
+            Label: 'Locale'
+        },
+        {
+            Value: title,
+            Label: 'Title'
+        },
+        {
+            Value: descr,
+            Label: 'Description'
+        },
+    ]
+});
+
 
 annotate service.Reviews with @(UI: {
     PresentationVariant        : {
@@ -167,20 +187,20 @@ annotate service.Reviews with @(UI: {
     },
     LineItem                   : [
         {
-            $Type : 'UI.DataFieldForAnnotation',
-            Label : '{i18n>Rating}',
-            Target: '@UI.DataPoint#rating',
+            $Type             : 'UI.DataFieldForAnnotation',
+            Label             : '{i18n>Rating}',
+            Target            : '@UI.DataPoint#rating',
             @HTML5.CssDefaults: {width: '10em'}
         },
         {
-            $Type : 'UI.DataFieldForAnnotation',
-            Label : '{i18n>User}',
-            Target: '@UI.FieldGroup#ReviewerAndDate',
+            $Type             : 'UI.DataFieldForAnnotation',
+            Label             : '{i18n>User}',
+            Target            : '@UI.FieldGroup#ReviewerAndDate',
             @HTML5.CssDefaults: {width: '15em'}
         },
         {
-            Value: title,
-            Label: '{i18n>Title}',
+            Value             : title,
+            Label             : '{i18n>Title}',
             @HTML5.CssDefaults: {width: '15em'}
         },
         {

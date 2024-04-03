@@ -76,3 +76,10 @@ annotate BookService.Books with  @(UI.PresentationVariant #vh_Books_isbn: {
         Descending: true,
     }, ],
 }, );
+
+annotate BookService.Books.texts with {
+    locale @ValueList: {
+        entity: 'Languages',
+        type  : #fixed
+    }
+};
