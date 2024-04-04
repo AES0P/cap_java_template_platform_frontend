@@ -18,7 +18,7 @@ annotate BookService.Books with {
     cds.odata.bindingparameter.name: '_it',
     Core.OperationAvailable        : _it.isReviewable
   )
-  addReview(rating  @title   : '{i18n>Rating}',  title  @title: '{i18n>Title}',  descr  @title: '{i18n>Description}'  )
+  addReview(rating  @mandatory,  title  @mandatory,  descr  @mandatory  )
 };
 
 annotate BookService.Reviews with {
