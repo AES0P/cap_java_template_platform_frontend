@@ -9,8 +9,6 @@ service BrowserService {
     excluding {
       createdBy,
       modifiedBy
-    } actions {
-      action addReview(rating : temp.rating_enum, title : temp.title, descr : temp.description) returns Reviews;
     };
 
   @readonly

@@ -8,6 +8,14 @@
             "applicationType": "URL",
             "url": "/admin/webapp",
             "navigationMode": "embedded"
+        },
+        "browser-books": {
+            "title": "Browser",
+            "description": "Browser all the books",
+            "additionalInformation": "SAPUI5.Component=browser",
+            "applicationType": "URL",
+            "url": "/browser/webapp",
+            "navigationMode": "embedded"
         }
     }
 }

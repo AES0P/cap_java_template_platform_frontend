@@ -5,7 +5,8 @@
   "license": "ISC",
   "repository": "<Add your repository here>",
   "sapux": [
-    "app/admin"
+    "app/admin",
+    "app/browser"
   ],
   "devDependencies": {
     "@sap/ux-specification": "UI5-1.122"
