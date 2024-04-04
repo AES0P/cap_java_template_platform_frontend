@@ -6,6 +6,7 @@ annotate BookService.Books with {
   isbn  @Common.FieldControl : #ReadOnly;
   descr @UI.MultiLineText    : true;
   price @Measures.ISOCurrency: currency_code;
+  rating @readonly;
 } actions {
   @(
     Common.SideEffects             : {

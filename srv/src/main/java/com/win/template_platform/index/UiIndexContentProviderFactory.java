@@ -44,7 +44,8 @@ public class UiIndexContentProviderFactory implements IndexContentProviderFactor
             writer.print(ENDPOINT_START);
             writer.printf(ENDPOINT, contextPath + "fiori.html?sap-ui-xx-viewCache=false",
                     "template -lunchpad");
-            writer.printf(ENDPOINT, contextPath + "/swagger/index.html", "Swagger UI");
+            writer.printf(ENDPOINT, contextPath + "/swagger/books-api.html", "Swagger UI-books-api");
+            writer.printf(ENDPOINT, contextPath + "/swagger/browser-api.html", "Swagger UI-browser-api");
             writer.print(ENDPOINT_END);
             writer.print(ENDPOINT_END);
         }

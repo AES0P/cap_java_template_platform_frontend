@@ -27,3 +27,6 @@ hs_err*
 .vscode
 .idea
 .reloadtrigger
+
+books-api.json
+browser-api.json
