@@ -3,7 +3,7 @@ spring:
   config.activate.on-profile: sqlite
   web.resources.static-locations: "file:./app"
   sql.init:
-    mode: always
+    mode: never
     schema-locations: classpath:schema-sqlite.sql
   datasource:
     url: "jdbc:sqlite:./db/sqlite.db"
