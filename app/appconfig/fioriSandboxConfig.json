@@ -1,21 +1,88 @@
 {
-    "defaultRenderer": "fiori2",
-    "applications": {
-        "manage-books": {
-            "title": "Admin",
-            "description": "Manage all the books",
-            "additionalInformation": "SAPUI5.Component=admin",
-            "applicationType": "URL",
-            "url": "/admin/webapp",
-            "navigationMode": "embedded"
+    "services": {
+        "LaunchPage": {
+            "adapter": {
+                "config": {
+                    "catalogs": [],
+                    "groups": [
+                        {
+                            "id": "Admin",
+                            "title": "Admin",
+                            "isPreset": true,
+                            "isVisible": true,
+                            "isGroupLocked": false,
+                            "tiles": [
+                                {
+                                    "id": "manage-books",
+                                    "tileType": "sap.ushell.ui.tile.StaticTile",
+                                    "properties": {
+                                        "targetURL": "#Books-manage",
+                                        "title": "Manage Books",
+                                        "description": "Add/edit/delete books"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Browser",
+                            "title": "Browser",
+                            "isPreset": true,
+                            "isVisible": true,
+                            "isGroupLocked": false,
+                            "tiles": [
+                                {
+                                    "id": "browser-books",
+                                    "tileType": "sap.ushell.ui.tile.StaticTile",
+                                    "properties": {
+                                        "targetURL": "#Books-display",
+                                        "title": "Browser Books",
+                                        "description": "Browser books"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
         },
-        "browser-books": {
-            "title": "Browser",
-            "description": "Browser all the books",
-            "additionalInformation": "SAPUI5.Component=browser",
-            "applicationType": "URL",
-            "url": "/browser/webapp",
-            "navigationMode": "embedded"
+        "NavTargetResolution": {
+            "config": {
+                "enableClientSideTargetResolution": true
+            }
+        },
+        "ClientSideTargetResolution": {
+            "adapter": {
+                "config": {
+                    "inbounds": {
+                        "manage-books": {
+                            "semanticObject": "Books",
+                            "action": "manage",
+                            "signature": {
+                                "parameters": {},
+                                "additionalParameters": "allowed"
+                            },
+                            "resolutionResult": {
+                                "applicationType": "SAPUI5",
+                                "additionalInformation": "SAPUI5.Component=admin",
+                                "url": "/admin/webapp"
+                            }
+                        },
+                        "browser-books": {
+                            "semanticObject": "Books",
+                            "action": "display",
+                            "signature": {
+                                "parameters": {},
+                                "additionalParameters": "allowed"
+                            },
+                            "resolutionResult": {
+                                "applicationType": "SAPUI5",
+                                "additionalInformation": "SAPUI5.Component=browser",
+                                "url": "/browser/webapp"
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
