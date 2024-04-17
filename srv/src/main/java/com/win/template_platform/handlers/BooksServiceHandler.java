@@ -18,10 +18,10 @@ import com.win.template_platform.common.RatingCalculator;
 
 import cds.gen.bookservice.AddReviewContext;
 import cds.gen.bookservice.BookService_;
+import cds.gen.bookservice.Books;
 import cds.gen.bookservice.Books_;
 import cds.gen.bookservice.Reviews;
 import cds.gen.bookservice.Reviews_;
-import cds.gen.com.win.template.Books;
 
 @Component
 @ServiceName(BookService_.CDS_NAME)
@@ -35,6 +35,11 @@ public class BooksServiceHandler implements EventHandler {
 
     @Autowired
     private RatingCalculator ratingCalculator;
+
+    @Before(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+    public void ininBooksBeforeRead() {
+        ratingCalculator.initBookRatings();
+    }
 
     @On(event = AddReviewContext.CDS_NAME)
     public void onAddReview(AddReviewContext context) {
@@ -54,18 +59,18 @@ public class BooksServiceHandler implements EventHandler {
     public void afterAddedReview(AddReviewContext context) {
         String bookId = context.getResult().getBookId();
         ratingCalculator.setBookRating(bookId);
-        db.run(Update.entity(BookService_.BOOKS, b -> b.matching(Books.create(bookId))).data(Books.IS_REVIEWABLE,
-                false));
+        setBookUnreviewable(bookId, false);
     }
 
-    @Before(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-    public void ininBooksBeforeRead() {
-        ratingCalculator.initBookRatings();
+    private void setBookUnreviewable(String bookId, Boolean reviewable) {
+        Books book = Books.create();
+        book.setId(bookId);
+        db.run(Update.entity(BookService_.BOOKS, b -> b.matching(book)).data(Books.IS_REVIEWABLE,
+                reviewable));
     }
 
     @Before(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
     public void initBookBeforeCreate(Books book) {
-        book.setStatusCode("A");
         book.setIsbn(getNextIsbn());
     }
 
@@ -75,16 +80,8 @@ public class BooksServiceHandler implements EventHandler {
         return isbnPrefix + isbnSuffix;
     }
 
-    @On(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
-    public void changeBookOnCreate(Books book) {
-        if (book.getStock() == 0) {
-            book.setStatusCode("O");
-        }
-    }
-
-    @On(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)
+    @On(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE }, entity = Books_.CDS_NAME)
     public void changeBookOnUpdate(Books book) {
         book.setStatusCode(book.getStock() == 0 ? "O" : "A");
     }
-
 }

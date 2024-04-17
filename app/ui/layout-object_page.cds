@@ -61,25 +61,25 @@ annotate service.Books with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Translations}',
-            Target: 'texts/@UI.LineItem'
-        },
-        {
-            $Type : 'UI.ReferenceFacet',
             Label : '{i18n>Details}',
             ID    : 'Details',
             Target: '@UI.FieldGroup#Details'
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Administrative',
-            ID    : 'Administrative',
-            Target: '@UI.FieldGroup#Administrative'
+            Label : '{i18n>Reviews}',
+            Target: 'reviews/@UI.LineItem'
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Reviews}',
-            Target: 'reviews/@UI.LineItem'
+            Label : '{i18n>Translations}',
+            Target: 'texts/@UI.LineItem'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Administrative',
+            ID    : 'Administrative',
+            Target: '@UI.FieldGroup#Administrative'
         }
     ],
     UI.FieldGroup #Header        : {
@@ -149,6 +149,15 @@ annotate service.Books with @(
                 Label: '{i18n>Modifiedby}'
             }
         ]
+    },
+    Common                       : {
+        SideEffects #StockChanges: {
+            SourceProperties: [stock],
+            TargetProperties: [
+                'price',
+                'status_code'
+            ]
+        }
     }
 );
 
